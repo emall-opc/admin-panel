@@ -17,7 +17,7 @@ import {
   Tag,
   Users,
 } from "@medusajs/icons";
-import { Avatar, Divider, DropdownMenu, Text, clx } from "@medusajs/ui";
+import { Divider, DropdownMenu, Text, clx } from "@medusajs/ui";
 
 import { Collapsible as RadixCollapsible } from "radix-ui";
 import { useTranslation } from "react-i18next";
@@ -114,8 +114,9 @@ const Header = () => {
   const { t } = useTranslation();
   const { store, isPending, isError, error } = useStore();
   const direction = useDocumentDirection();
-  const name = store?.name;
-  const fallback = store?.name?.slice(0, 1).toUpperCase();
+  const rawName = store?.name;
+  const name = rawName === "Medusa Store" ? "Bizyul Store" : rawName;
+  const fallback = name?.slice(0, 1).toUpperCase();
 
   const isLoaded = !isPending && !!store && !!name && !!fallback;
 
@@ -137,10 +138,10 @@ const Header = () => {
           data-testid="sidebar-header-dropdown-trigger"
         >
           {fallback ? (
-            <Avatar
-              variant="squared"
-              size="xsmall"
-              fallback={fallback}
+            <img
+              src="/icon.png"
+              alt={name}
+              className="size-6 rounded-md object-cover shadow-borders-base"
               data-testid="sidebar-header-dropdown-avatar"
             />
           ) : (
@@ -157,7 +158,7 @@ const Header = () => {
                 leading="compact"
                 className="truncate"
               >
-                {store.name}
+                {name}
               </Text>
             ) : (
               <Skeleton className="h-[9px] w-[120px]" />
@@ -174,10 +175,10 @@ const Header = () => {
               className="flex items-center gap-x-3 px-2 py-1"
               data-testid="sidebar-header-dropdown-user-info"
             >
-              <Avatar
-                variant="squared"
-                size="small"
-                fallback={fallback}
+              <img
+                src="/icon.png"
+                alt={name}
+                className="size-8 rounded-md object-cover shadow-borders-base"
                 data-testid="sidebar-header-dropdown-user-avatar"
               />
               <div
