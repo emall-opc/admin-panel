@@ -8,11 +8,16 @@ ARG VITE_MEDUSA_BACKEND_URL
 ARG VITE_MEDUSA_STOREFRONT_URL
 ARG VITE_MEDUSA_B2B_PANEL
 
+ENV VITE_MEDUSA_BASE=$VITE_MEDUSA_BASE
+ENV VITE_MEDUSA_BACKEND_URL=$VITE_MEDUSA_BACKEND_URL
+ENV VITE_MEDUSA_STOREFRONT_URL=$VITE_MEDUSA_STOREFRONT_URL
+ENV VITE_MEDUSA_B2B_PANEL=$VITE_MEDUSA_B2B_PANEL
+
 # Copy package files
 COPY package.json yarn.lock ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN yarn install --no-frozen-lockfile
 
 # Copy source code (includes .env which will be used for build)
 COPY . .
@@ -34,4 +39,4 @@ WORKDIR /app
 EXPOSE 8000
 
 # Serve static files
-CMD ["serve", "-s", ".", "-l", "8000"]
+CMD ["sh", "-c", "serve -s . -l ${PORT:-8000}"]
